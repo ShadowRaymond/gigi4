@@ -1,0 +1,52 @@
+#include "stack.h"
+#include <stdlib.h>
+
+struct node *init(int value)
+{
+    struct node *root = (struct node *)malloc(sizeof(struct node));
+    if (root != NULL)
+    {
+        root->value = value;
+        root->next = NULL;
+    }
+    return root;
+}
+
+struct node *push(struct node *root, int value)
+{
+    struct node *new_node = (struct node *)malloc(sizeof(struct node));
+    if (new_node != NULL)
+    {
+        new_node->value = value;
+        new_node->next = root;
+        root = new_node;
+    }
+    return root;
+}
+
+struct node *pop(struct node **root, int *value)
+{
+    if (root == NULL || *root == NULL)
+    {
+        return NULL;
+    }
+    struct node *top = *root;
+    if (value != NULL)
+    {
+        *value = top->value;
+    }
+    *root = top->next;
+    free(top);
+    return *root;
+}
+
+void destroy(struct node *root)
+{
+    struct node *curr = root;
+    while (curr != NULL)
+    {
+        struct node *next = curr->next;
+        free(curr);
+        curr = next;
+    }
+}
