@@ -1,0 +1,70 @@
+#include "bst.h"
+#include <stdio.h>
+#include <stdlib.h>
+
+void free_tree(struct t_btree *root);
+void run_test_case_1();
+void run_test_case_2();
+
+int main()
+{
+    printf("--- TEST CASE 1 ---\n");
+    run_test_case_1();
+    printf("--- TEST CASE 2 ---\n");
+    run_test_case_2();
+    return 0;
+}
+
+void run_test_case_1()
+{
+    struct t_btree *root = NULL;
+    bstree_insert(&root, 10, compare_int);
+    bstree_insert(&root, 5, compare_int);
+    bstree_insert(&root, 15, compare_int);
+
+    printf("Root: %d\n", root->item);
+    printf("Left child: %d\n", root->left ? root->left->item : -1);
+    printf("Right child: %d\n", root->right ? root->right->item : -1);
+
+    if (root->item == 10 && root->left && root->left->item == 5 && root->right && root->right->item == 15)
+    {
+        printf("RESULT: SUCCESS\n\n");
+    }
+    else
+    {
+        printf("RESULT: FAIL\n\n");
+    }
+    free_tree(root);
+}
+
+void run_test_case_2()
+{
+    struct t_btree *root = NULL;
+    bstree_insert(&root, 20, compare_int);
+    bstree_insert(&root, 30, compare_int);
+    bstree_insert(&root, 25, compare_int);
+
+    printf("Root: %d\n", root->item);
+    printf("Right child: %d\n", root->right ? root->right->item : -1);
+    printf("Right-Left grandchild: %d\n", (root->right && root->right->left) ? root->right->left->item : -1);
+
+    if (root->item == 20 && root->right && root->right->item == 30 && root->right->left && root->right->left->item == 25)
+    {
+        printf("RESULT: SUCCESS\n\n");
+    }
+    else
+    {
+        printf("RESULT: FAIL\n\n");
+    }
+    free_tree(root);
+}
+
+void free_tree(struct t_btree *root)
+{
+    if (root != NULL)
+    {
+        free_tree(root->left);
+        free_tree(root->right);
+        free(root);
+    }
+}
