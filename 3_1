@@ -1,0 +1,15 @@
+#ifndef STACK_H
+#define STACK_H
+
+struct node
+{
+    int value;
+    struct node *next;
+};
+
+struct node *init(int value);
+struct node *push(struct node *root, int value);
+struct node *pop(struct node **root, int *value);
+void destroy(struct node *root);
+
+#endif
