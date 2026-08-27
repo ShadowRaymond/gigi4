@@ -1,0 +1,46 @@
+CC = gcc
+CFLAGS = -Wall -Werror -Wextra
+BUILD_DIR = ../build
+
+TARGET_1 = $(BUILD_DIR)/Quest_1
+TARGET_2 = $(BUILD_DIR)/Quest_2
+TARGET_3 = $(BUILD_DIR)/Quest_3
+TARGET_4 = $(BUILD_DIR)/Quest_4
+TARGET_5 = $(BUILD_DIR)/Quest_5
+TARGET_6 = $(BUILD_DIR)/Quest_6
+
+all: door_struct list_test stack_test print_module documentation_module bst_create_test
+
+door_struct: dmanager_module.o
+	@mkdir -p $(BUILD_DIR)
+	$(CC) $(CFLAGS) dmanager_module.o -o $(TARGET_1)
+
+list_test: list.o list_test.o
+	@mkdir -p $(BUILD_DIR)
+	$(CC) $(CFLAGS) list.o list_test.o -o $(TARGET_2)
+
+stack_test: stack.o stack_test.o
+	@mkdir -p $(BUILD_DIR)
+	$(CC) $(CFLAGS) stack.o stack_test.o -o $(TARGET_3)
+
+print_module: main_module_entry_point.o print_module.o
+	@mkdir -p $(BUILD_DIR)
+	$(CC) $(CFLAGS) main_module_entry_point.o print_module.o -o $(TARGET_4)
+
+documentation_module: main_module_entry_point.o print_module.o documentation_module.o
+	@mkdir -p $(BUILD_DIR)
+	$(CC) $(CFLAGS) main_module_entry_point.o print_module.o documentation_module.o -o $(TARGET_5)
+
+bst_create_test: bst.o bst_create_test.o
+	@mkdir -p $(BUILD_DIR)
+	$(CC) $(CFLAGS) bst.o bst_create_test.o -o $(TARGET_6)
+
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
+
+clean:
+	rm -f *.o $(TARGET_1) $(TARGET_2) $(TARGET_3) $(TARGET_4) $(TARGET_5) $(TARGET_6)
+
+rebuild: clean all
+
+.PHONY: all door_struct list_test stack_test print_module documentation_module bst_create_test clean rebuild
