@@ -1,0 +1,26 @@
+CC = gcc
+CFLAGS = -Wall -Werror -Wextra
+BUILD_DIR = ../build
+
+TARGET_1 = $(BUILD_DIR)/Quest_1
+TARGET_2 = $(BUILD_DIR)/Quest_2
+
+all: door_struct list_test
+
+door_struct: dmanager_module.o
+	@mkdir -p $(BUILD_DIR)
+	$(CC) $(CFLAGS) dmanager_module.o -o $(TARGET_1)
+
+list_test: list.o list_test.o
+	@mkdir -p $(BUILD_DIR)
+	$(CC) $(CFLAGS) list.o list_test.o -o $(TARGET_2)
+
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
+
+clean:
+	rm -f *.o $(TARGET_1) $(TARGET_2)
+
+rebuild: clean all
+
+.PHONY: all door_struct list_test clean rebuild
