@@ -1,0 +1,23 @@
+CC = gcc
+CFLAGS = -Wall -Werror -Wextra
+BUILD_DIR = ../build
+TARGET = $(BUILD_DIR)/Quest_1
+
+SRCS = dmanager_module.c
+OBJS = $(SRCS:.c=.o)
+
+all: door_struct
+
+door_struct: $(OBJS)
+	@mkdir -p $(BUILD_DIR)
+	$(CC) $(CFLAGS) $(OBJS) -o $(TARGET)
+
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
+
+clean:
+	rm -f *.o $(TARGET)
+
+rebuild: clean door_struct
+
+.PHONY: all door_struct clean rebuild
