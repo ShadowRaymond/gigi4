@@ -1,0 +1,40 @@
+#include "bst.h"
+#include <stdio.h>
+#include <stdlib.h>
+
+void test_create_node(int value);
+
+int main()
+{
+    test_create_node(21);
+    test_create_node(-5);
+    return 0;
+}
+
+void test_create_node(int value)
+{
+    struct t_btree *node = bstree_create_node(value);
+
+    printf("INPUT: %d\n", value);
+    if (node != NULL)
+    {
+        printf("OUTPUT: item=%d, left=%s, right=%s\n", node->item,
+               node->left == NULL ? "NULL" : "NOT_NULL",
+               node->right == NULL ? "NULL" : "NOT_NULL");
+
+        if (node->item == value && node->left == NULL && node->right == NULL)
+        {
+            printf("RESULT: SUCCESS\n\n");
+        }
+        else
+        {
+            printf("RESULT: FAIL\n\n");
+        }
+        free(node);
+    }
+    else
+    {
+        printf("OUTPUT: NULL\n");
+        printf("RESULT: FAIL\n\n");
+    }
+}
