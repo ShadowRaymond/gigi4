@@ -1,0 +1,52 @@
+#include "stack.h"
+#include <stdio.h>
+
+void test_push();
+void test_pop();
+
+int main()
+{
+    test_push();
+    test_pop();
+    return 0;
+}
+
+void test_push()
+{
+    struct node *stack = init(10);
+    stack = push(stack, 20);
+
+    if (stack != NULL && stack->value == 20 && stack->next != NULL && stack->next->value == 10)
+    {
+        printf("SUCCESS\n");
+    }
+    else
+    {
+        printf("FAIL\n");
+    }
+
+    destroy(stack);
+}
+
+void test_pop()
+{
+    struct node *stack = init(10);
+    stack = push(stack, 20);
+
+    int val1 = 0;
+    stack = pop(&stack, &val1);
+
+    int val2 = 0;
+    stack = pop(&stack, &val2);
+
+    if (val1 == 20 && val2 == 10 && stack == NULL)
+    {
+        printf("SUCCESS\n");
+    }
+    else
+    {
+        printf("FAIL\n");
+    }
+
+    destroy(stack);
+}
