@@ -1,0 +1,14 @@
+#include "bst.h"
+#include <stdlib.h>
+
+struct t_btree *bstree_create_node(int item)
+{
+    struct t_btree *node = (struct t_btree *)malloc(sizeof(struct t_btree));
+    if (node != NULL)
+    {
+        node->item = item;
+        node->left = NULL;
+        node->right = NULL;
+    }
+    return node;
+}
