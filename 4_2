@@ -1,0 +1,23 @@
+#include "print_module.h"
+#include <stdio.h>
+#include <time.h>
+
+char print_char(char ch)
+{
+    return (char)putchar(ch);
+}
+
+void print_log(char (*print)(char), char *message)
+{
+    time_t raw_time = time(NULL);
+    struct tm *time_info = localtime(&raw_time);
+
+    char log_buffer[200];
+    sprintf(log_buffer, "%s %02d:%02d:%02d %s", Log_prefix, time_info->tm_hour,
+            time_info->tm_min, time_info->tm_sec, message);
+
+    for (int i = 0; log_buffer[i] != '\0'; i++)
+    {
+        print(log_buffer[i]);
+    }
+}
