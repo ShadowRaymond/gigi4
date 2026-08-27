@@ -1,0 +1,87 @@
+#include "bst.h"
+#include <stdlib.h>
+
+struct t_btree *bstree_create_node(int item)
+{
+    struct t_btree *node = (struct t_btree *)malloc(sizeof(struct t_btree));
+    if (node != NULL)
+    {
+        node->item = item;
+        node->left = NULL;
+        node->right = NULL;
+    }
+    return node;
+}
+
+int compare_int(int a, int b)
+{
+    return a - b;
+}
+
+void bstree_insert(struct t_btree **root, int item, int (*cmpf)(int, int))
+{
+    if (root == NULL)
+    {
+        return;
+    }
+    if (*root == NULL)
+    {
+        *root = bstree_create_node(item);
+        return;
+    }
+
+    struct t_btree *curr = *root;
+    struct t_btree *parent = NULL;
+
+    while (curr != NULL)
+    {
+        parent = curr;
+        if (cmpf(item, curr->item) < 0)
+        {
+            curr = curr->left;
+        }
+        else
+        {
+            curr = curr->right;
+        }
+    }
+
+    if (cmpf(item, parent->item) < 0)
+    {
+        parent->left = bstree_create_node(item);
+    }
+    else
+    {
+        parent->right = bstree_create_node(item);
+    }
+}
+
+void bstree_apply_infix(struct t_btree *root, void (*applyf)(int))
+{
+    if (root != NULL)
+    {
+        bstree_apply_infix(root->left, applyf);
+        applyf(root->item);
+        bstree_apply_infix(root->right, applyf);
+    }
+}
+
+void bstree_apply_prefix(struct t_btree *root, void (*applyf)(int))
+{
+    if (root != NULL)
+    {
+        applyf(root->item);
+        bstree_apply_prefix(root->left, applyf);
+        bstree_apply_prefix(root->right, applyf);
+    }
+}
+
+void bstree_apply_postfix(struct t_btree *root, void (*applyf)(int))
+{
+    if (root != NULL)
+    {
+        bstree_apply_postfix(root->left, applyf);
+        bstree_apply_postfix(root->right, applyf);
+        applyf(root->item);
+    }
+}
