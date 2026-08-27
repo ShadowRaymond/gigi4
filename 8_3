@@ -1,0 +1,59 @@
+#include "bst.h"
+#include <stdio.h>
+#include <stdlib.h>
+
+void print_item(int item);
+void free_tree(struct t_btree *root);
+void test_traverse(int *arr, int size);
+
+int main()
+{
+    int data1[] = {10, 5, 15};
+    int data2[] = {20, 30, 25};
+
+    printf("--- TEST DATA SET 1 ---\n");
+    test_traverse(data1, 3);
+
+    printf("--- TEST DATA SET 2 ---\n");
+    test_traverse(data2, 3);
+
+    return 0;
+}
+
+void print_item(int item)
+{
+    printf("%d ", item);
+}
+
+void test_traverse(int *arr, int size)
+{
+    struct t_btree *root = NULL;
+    for (int i = 0; i < size; i++)
+    {
+        bstree_insert(&root, arr[i], compare_int);
+    }
+
+    printf("Infix:   ");
+    bstree_apply_infix(root, print_item);
+    printf("\n");
+
+    printf("Prefix:  ");
+    bstree_apply_prefix(root, print_item);
+    printf("\n");
+
+    printf("Postfix: ");
+    bstree_apply_postfix(root, print_item);
+    printf("\n\n");
+
+    free_tree(root);
+}
+
+void free_tree(struct t_btree *root)
+{
+    if (root != NULL)
+    {
+        free_tree(root->left);
+        free_tree(root->right);
+        free(root);
+    }
+}
