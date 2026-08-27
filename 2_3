@@ -1,0 +1,57 @@
+#include "list.h"
+#include <stdio.h>
+
+void test_add_door();
+void test_remove_door();
+
+int main()
+{
+    test_add_door();
+    test_remove_door();
+    return 0;
+}
+
+void test_add_door()
+{
+    struct door d1 = {1, 0};
+    struct door d2 = {2, 1};
+
+    struct node *root = init(d1);
+    struct node *added = add_door(root, d2);
+
+    if (added != NULL && root->next == added && added->door.id == 2)
+    {
+        printf("SUCCESS\n");
+    }
+    else
+    {
+        printf("FAIL\n");
+    }
+
+    destroy(root);
+}
+
+void test_remove_door()
+{
+    struct door d1 = {1, 0};
+    struct door d2 = {2, 1};
+    struct door d3 = {3, 0};
+
+    struct node *root = init(d1);
+    struct node *node2 = add_door(root, d2);
+    add_door(node2, d3);
+
+    root = remove_door(node2, root);
+
+    struct node *found = find_door(2, root);
+    if (found == NULL && root->next != NULL && root->next->door.id == 3)
+    {
+        printf("SUCCESS\n");
+    }
+    else
+    {
+        printf("FAIL\n");
+    }
+
+    destroy(root);
+}
