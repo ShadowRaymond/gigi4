@@ -1,0 +1,32 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include "documentation_module.h"
+#include "print_module.h"
+
+int main()
+{
+    print_log(print_char, Module_load_success_message);
+    putchar('\n');
+
+    int *availability_mask = check_available_documentation_module(
+        validate, Documents_count, Documents);
+
+    if (availability_mask != NULL)
+    {
+        char *docs[Documents_count] = {Documents};
+
+        for (int i = 0; i < Documents_count; i++)
+        {
+            printf("[%-15s : %s]", docs[i],
+                   availability_mask[i] ? "available" : "unavailable");
+            if (i < Documents_count - 1)
+            {
+                printf("\n");
+            }
+        }
+        printf("\n");
+        free(availability_mask);
+    }
+
+    return 0;
+}
